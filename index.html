@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f6f5e9" />
+    <meta name="description" content="A little world of birthday wishes, made with love." />
+    <title>Happy birthday, Nethma ♡</title>
+    <link rel="icon" href="./assets/daisy.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./motion.css" />
+    <script src="./content.js" defer></script>
+    <script src="./script.js" defer></script>
+    <script src="./motion.js" defer></script>
+  </head>
+  <body>
+    <svg class="svg-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <symbol id="daisy" viewBox="0 0 80 80">
+        <g fill="currentColor"><ellipse cx="40" cy="20" rx="8" ry="17"/><ellipse cx="40" cy="60" rx="8" ry="17"/><ellipse cx="20" cy="40" rx="17" ry="8"/><ellipse cx="60" cy="40" rx="17" ry="8"/><ellipse cx="26" cy="26" rx="8" ry="17" transform="rotate(-45 26 26)"/><ellipse cx="54" cy="54" rx="8" ry="17" transform="rotate(-45 54 54)"/><ellipse cx="54" cy="26" rx="8" ry="17" transform="rotate(45 54 26)"/><ellipse cx="26" cy="54" rx="8" ry="17" transform="rotate(45 26 54)"/></g><circle cx="40" cy="40" r="12" fill="#e7b848"/>
+      </symbol>
+      <symbol id="heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1.1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21l8.8-8.6a5.5 5.5 0 0 0 0-7.8Z"/></symbol>
+      <symbol id="arrow" viewBox="0 0 24 24"><path d="M5 12h14m-5-5 5 5-5 5"/></symbol>
+      <symbol id="music" viewBox="0 0 24 24"><path d="M9 18V5l11-2v13M9 9l11-2"/><ellipse cx="6" cy="18" rx="3" ry="3"/><ellipse cx="17" cy="16" rx="3" ry="3"/></symbol>
+    </svg>
+
+    <header class="site-header">
+      <button class="brand" data-go="0" aria-label="Back to the birthday greeting"><svg class="brand-flower"><use href="#daisy"/></svg><span>a little birthday escape</span></button>
+      <div class="header-controls">
+        <button class="sound-toggle" id="sound-toggle" aria-pressed="false"><svg class="icon"><use href="#music"/></svg><span id="sound-label">Sound off</span><span class="sound-dot"></span></button>
+      </div>
+    </header>
+
+    <div class="journey-scroll-track" aria-hidden="true"></div>
+    <main class="experience" id="home" aria-label="Scroll to explore your birthday journey">
+      <section class="hero" aria-label="Your birthday world">
+        <div class="scene-world" aria-hidden="true">
+          <img class="scene-image" data-scene="0" src="./ChatGPT Image Sep 14, 2026, 10_47_16 PM.png" alt="" decoding="async" fetchpriority="high" />
+          <img class="scene-image" data-scene="1" src="./ChatGPT Image Sep 14, 2026, 11_16_06 PM.png" alt="" decoding="async" />
+          <img class="scene-image" data-scene="2" src="./ChatGPT Image Sep 14, 2026, 11_31_23 PM.png" alt="" decoding="async" />
+          <img class="scene-image" data-scene="3" src="./ChatGPT Image Sep 15, 2026, 12_02_32 AM.png" alt="" decoding="async" />
+        </div>
+        <div class="scene-bridge" aria-hidden="true"></div>
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="scene-atmosphere" aria-hidden="true"><div class="sunlight"></div><div class="meadow-mist"></div></div>
+        <div class="foreground foreground-left" aria-hidden="true"><svg viewBox="0 0 240 330"><path d="M72 340Q103 235 72 103M95 340Q168 217 164 170M70 286Q28 238 22 226M98 298Q158 269 191 273"/><path class="leaf" d="M76 264Q21 274 25 222Q63 224 76 264M114 270Q157 232 185 259Q159 288 114 270"/><use href="#daisy" x="24" y="36" width="103" height="103"/><use href="#daisy" x="125" y="117" width="80" height="80"/></svg></div>
+        <div class="foreground foreground-right" aria-hidden="true"><svg viewBox="0 0 240 330"><path d="M72 340Q103 235 72 103M95 340Q168 217 164 170"/><path class="leaf" d="M76 264Q21 274 25 222Q63 224 76 264M114 270Q157 232 185 259Q159 288 114 270"/><use href="#daisy" x="24" y="36" width="103" height="103"/><use href="#daisy" x="125" y="117" width="80" height="80"/></svg></div>
+        <div class="petals" id="petals" aria-hidden="true"></div>
+        <div class="hero-content scene-panel" data-panel="0">
+          <p class="eyebrow hero-eyebrow"><span>✧</span> 18 SEPTEMBER · A DAY AS SPECIAL AS YOU <span>✧</span></p>
+          <h1 id="birthday-heading">Happy birthday,<br/><em data-name>Nethma</em><span class="heading-dot">.</span></h1>
+          <p class="hero-description">If I could give you a whole little world,<br/>it would feel something like this.</p>
+          <button class="button primary" data-go="1">Scroll into your little world <span aria-hidden="true">↓</span></button>
+          <p class="handwritten hero-note">a little magic, a lot of love ♡</p>
+        </div>
+        <article class="valley-panel scene-panel" data-panel="1" inert aria-hidden="true">
+          <p class="eyebrow">A LITTLE CLOSER TO SOMETHING SPECIAL</p>
+          <h2>A world of wonder.<br/><em>And a little letter.</em></h2>
+          <p>Somewhere down there, there’s something<br/>I’ve been waiting to tell you.</p>
+          <button class="button primary" data-go="2">Keep scrolling to your letter <span aria-hidden="true">↓</span></button>
+          <span class="handwritten">just a little further, my love ♡</span>
+        </article>
+        <article class="letter-scene scene-panel" data-panel="2" id="letter" inert aria-hidden="true" aria-labelledby="letter-heading">
+        <div class="section-intro"><p class="eyebrow">A LITTLE SOMETHING FROM MY HEART</p><h2 id="letter-heading">Some words,<br/><em>just for you.</em></h2><p>In a world this big, I’m so glad I found you.</p></div>
+        <button class="envelope" id="open-letter" aria-haspopup="dialog" aria-controls="letter-dialog">
+          <span class="envelope-paper"><span class="eyebrow">A BIRTHDAY LETTER</span><span class="handwritten">To my favorite person,</span><span class="paper-lines"></span></span>
+          <span class="envelope-back"></span><span class="envelope-fold"></span><span class="envelope-seal"><svg class="icon"><use href="#heart"/></svg></span>
+          <span class="envelope-address handwritten">for <span data-name>Nethma</span>, with love</span><span class="envelope-hint">CLICK TO OPEN YOUR LETTER <span>↗</span></span>
+        </button>
+        <div class="keepsake-actions"><button data-dialog="reasons-dialog"><svg class="icon"><use href="#heart"/></svg>Little things I love</button><button data-dialog="wish-dialog"><span>✧</span>Make a wish</button></div>
+        <button class="street-scroll-hint" data-go="3">One last sunset, just for us <span aria-hidden="true">↓</span></button>
+        </article>
+        <article class="sunset-panel scene-panel" data-panel="3" inert aria-hidden="true" aria-labelledby="sunset-heading">
+          <p class="eyebrow">TO ALL OUR BEAUTIFUL TOMORROWS</p>
+          <h2 id="sunset-heading">My favorite place<br/>is <em>beside you.</em></h2>
+          <p class="handwritten">Happy birthday, <span data-name>Nethma</span>. Always you. ♡</p>
+          <button class="button sunset-wish" data-dialog="wish-dialog">One last birthday wish <span aria-hidden="true">✧</span></button>
+        </article>
+      </section>
+      <p class="journey-status" id="journey-status" role="status" aria-live="polite"></p>
+    </main>
+    <dialog id="letter-dialog" aria-labelledby="dialog-title"><div class="letter-modal"><button class="close-dialog" id="close-letter" aria-label="Close birthday letter">×</button><p class="eyebrow">A LITTLE LOVE, ON PAPER</p><h2 id="dialog-title">My dearest <span data-name>Nethma</span>,</h2><div class="letter-reading"><div id="letter-content"></div><p class="letter-signoff handwritten" id="letter-signoff"></p></div><div class="page-controls"><button id="letter-prev" aria-label="Previous letter page">←</button><span id="letter-page" role="status"></span><button id="letter-next" aria-label="Next letter page">→</button></div></div></dialog>
+    <dialog id="reasons-dialog" aria-labelledby="reasons-heading"><div class="keepsake-modal"><button class="close-dialog" data-close aria-label="Close little things">×</button><p class="eyebrow">IT’S ALWAYS THE LITTLE THINGS</p><h2 id="reasons-heading">You make ordinary days<br/><em>feel like magic.</em></h2><div class="reason-cards" id="reason-cards"></div><div class="page-controls"><button id="reason-prev" aria-label="Previous little thing">←</button><span id="reason-page" role="status"></span><button id="reason-next" aria-label="Next little thing">→</button></div></div></dialog>
+    <dialog id="wish-dialog" aria-labelledby="wish-heading"><div class="keepsake-modal wish-modal"><button class="close-dialog" data-close aria-label="Close birthday wish">×</button><div class="wish-art" aria-hidden="true"><span class="star star-one">✧</span><span class="star star-two">✦</span><span class="star star-three">✧</span><div class="cake"><div class="candle"><span class="flame" id="flame"></span><span class="wick"></span></div><div class="cake-top"></div><div class="cake-body"><span></span><span></span><span></span><span></span><span></span></div><div class="cake-plate"></div></div></div><div class="wish-copy"><p class="eyebrow">ONE LAST LITTLE THING</p><h2 id="wish-heading">Close your eyes.<br/><em>Make a wish.</em></h2><p>For all the happiness your heart can hold.</p><button class="button primary" id="wish-button">Blow out the candle <span>✧</span></button><p class="wish-status handwritten" id="wish-status" role="status" aria-live="polite">This one’s just for you.</p><button class="relight" id="relight" hidden>Make another wish ↺</button></div></div><div class="confetti" id="confetti" aria-hidden="true"></div></dialog>
+    <noscript><p class="noscript-note">Please enable JavaScript to explore your birthday surprise.</p></noscript>
+  </body>
+</html>
