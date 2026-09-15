@@ -2,16 +2,45 @@
 window.BIRTHDAY_CONTENT = {
   name: "Nethma",
   letter: [
-    "Happy birthday to my favorite person.",
-    "I wish I could wrap up all the little things you make me feel and give them to you today. The comfort of being around you. The way an ordinary day feels brighter when you’re part of it. The happiness of simply knowing you’re in my life.",
-    "So I made you this little world instead. Somewhere peaceful, a little dreamy, and full of love. A tiny reminder of how much you mean to me.",
-    "I hope this next chapter brings you reasons to laugh until your cheeks hurt, the courage to follow the things you love, and quiet moments that make you think: life is beautiful.",
-    "You deserve all of that, and so much more. And I’d love to be right beside you for it."
+    "Again, happy belated 26th birthday! I hope you like this. And while you were asking me why I was being so silent and why I hadn’t read your letter yet, this is what I was secretly working on.",
+    "Anyway, this is one of your gifts. There are still a few more to come. I thought you might like the Ghibli style. Also, this was made with GP6-Astra. Wonderful, right? How can one or two clean prompts create all these designs? Okay, enough about that.",
+    "Also, from the things you wrote in your letter, I made 30 little notes for you. So this letter might not be very long, but there’s another one on its way in the post.",
+    "For the past 3.5 years, thank you for staying with me. I really want to celebrate many more birthdays together with you, with your cute smile, comfy hugs, and all your funny stories while I look at you and your smile.",
+    "And in just 13 days, I’m finally meeting you! YAYYY! I’m really looking forward to it.",
+    "I’ll always be there with you, supporting you every day and cheering for you in everything you do.",
+    "Happy birthday again, Babu. ❤️"
   ],
-  signoff: "Always cheering for you,\nWith all my love ♡",
+  signoff: "Love youuu.",
   reasons: [
     { title: "Your little kind of sunshine", text: "The way you make even the most ordinary moments feel warm, bright, and worth remembering.", icon: "sun", note: "you light up my days" },
     { title: "Your beautiful heart", text: "The kindness you put into the world. The way you care. All the little things that make you, you.", icon: "heart", note: "my favorite thing about you" },
-    { title: "Just being you", text: "You don’t have to do anything extraordinary. Having you in my life is already something pretty special.", icon: "flower", note: "my favorite person, always" }
+    { title: "Just being you", text: "You don’t have to do anything extraordinary. Having you in my life is already something pretty special.", icon: "flower", note: "my favorite person, always" },
+    { title: "My favorite thought", text: "Out of all the thoughts that cross my mind during the day, somehow, you keep showing up in the nicest ones.", icon: "heart", note: "you’re there more than you think" },
+    { title: "The little things", text: "It’s not always the big moments I remember the most. Sometimes it’s your laugh, your voice, or something completely random you said.", icon: "flower", note: "those are my favorites" },
+    { title: "Just because", text: "No special reason. No special occasion. I just wanted you to know that you mean a lot to me.", icon: "sun", note: "that’s all" },
+    { title: "Your smile", text: "There’s something about your smile that makes even an ordinary moment feel a little more special.", icon: "heart", note: "never stop smiling" },
+    { title: "You are enough", text: "You never have to be perfect. You never have to impress anyone. You can simply be yourself and that will always be enough.", icon: "flower", note: "exactly as you are" },
+    { title: "My favorite person", text: "Out of all the people I could have met in this life, I’m really glad I got to meet you.", icon: "sun", note: "quite lucky, honestly" },
+    { title: "Ordinary days", text: "I think my favorite moments might be the completely ordinary ones. Just talking, laughing, and being around you.", icon: "heart", note: "simple moments, big memories" },
+    { title: "Thank you", text: "Thank you for the little things you probably don’t even realize you do. They mean more to me than I always know how to say.", icon: "flower", note: "you make a difference" },
+    { title: "You make things lighter", text: "Some days are complicated. Some days are tiring. But somehow, talking to you makes them feel a little easier.", icon: "sun", note: "thank you for that" },
+    { title: "A little reminder", text: "Just in case you forget today, you are appreciated, you are cared about, and you are very special to me.", icon: "heart", note: "please remember that" },
+    { title: "Your laugh", text: "I could hear you laugh at the most random thing and somehow end up smiling too.", icon: "flower", note: "your happiness is contagious" },
+    { title: "No reason needed", text: "I don’t need a reason to appreciate you. You being you is already plenty.", icon: "sun", note: "always has been" },
+    { title: "My favorite moments", text: "Some of my favorite memories aren’t big adventures. They’re the tiny moments I got to share with you.", icon: "heart", note: "I keep those close" },
+    { title: "You and me", text: "There’s something really nice about having someone you can laugh with, talk to, and simply be yourself around.", icon: "flower", note: "I’m glad it’s you" },
+    { title: "You matter", text: "I hope you know that your presence matters. Even when you think you haven’t done anything special.", icon: "sun", note: "you being here matters" },
+    { title: "A quiet thank you", text: "For every conversation, every laugh, every little moment, and everything in between,", icon: "heart", note: "thank you for being you" },
+    { title: "My favorite hello", text: "There’s something about seeing your name appear on my screen that still makes me smile.", icon: "flower", note: "every single time" },
+    { title: "You make memories", text: "One day, I think we’ll look back at these little moments and realize how special they actually were.", icon: "sun", note: "I hope we remember them" },
+    { title: "Stay yourself", text: "Don’t change yourself just to fit into someone else’s idea of who you should be.", icon: "heart", note: "I like you as you are" },
+    { title: "Your kindness", text: "The way you care about little things says so much about you. You have a kindness that deserves to be appreciated.", icon: "flower", note: "and I notice it" },
+    { title: "One of my favorites", text: "If someone asked me about one of my favorite things lately, I’d probably have a hard time not mentioning you.", icon: "sun", note: "just saying" },
+    { title: "The best kind of company", text: "Sometimes I don’t need anything exciting to happen. Having you beside me is already good company.", icon: "heart", note: "that’s my kind of day" },
+    { title: "You brighten things", text: "You have this funny little way of making normal days feel less ordinary.", icon: "flower", note: "I really like that about you" },
+    { title: "Remember this", text: "You are more appreciated than you probably realize. More cared for than you probably notice.", icon: "sun", note: "just a little reminder" },
+    { title: "Your voice", text: "There’s something comforting about hearing your voice after a long day.", icon: "heart", note: "it makes things better" },
+    { title: "A tiny confession", text: "Sometimes I catch myself smiling because I remembered something you said.", icon: "flower", note: "you do that to me" },
+    { title: "My favorite kind of chaos", text: "Life can be messy, random, and completely unpredictable.", icon: "sun", note: "I’m glad you’re part of it" }
   ]
 };
