@@ -155,6 +155,147 @@ dialog.addEventListener('close', () => document.body.classList.remove('modal-ope
 const wishButton = document.getElementById('wish-button');
 const relightButton = document.getElementById('relight');
 const wishDialog = document.getElementById('wish-dialog');
+const candleView = document.getElementById('candle-view');
+const riddleView = document.getElementById('wish-riddle');
+const riddleForm = document.getElementById('riddle-form');
+const riddleAnswer = document.getElementById('riddle-answer');
+const riddleFeedback = document.getElementById('riddle-feedback');
+const riddleHint = document.getElementById('riddle-hint');
+const riddleHintToggle = document.getElementById('riddle-hint-toggle');
+const riddleWords = document.getElementById('riddle-words');
+const riddleReveal = document.getElementById('riddle-reveal');
+const riddles = [
+  { answer: 'priory', word: 'Priory', question: 'A quiet home for monks or nuns, led by a prior. What am I?', hint: 'Six letters: P _ _ _ _ Y. Look closely at “prior”.' },
+  { answer: 'of', word: 'of', question: 'Two little letters that connect a piece to its whole — as in “a piece __ cake.”', hint: 'Two letters. It begins with O.' },
+  { answer: 'the', word: 'the', question: 'Three letters that turn just any moon into ___ moon.', hint: 'T _ E — a little word for something specific.' },
+  { answer: 'orange', word: 'Orange', question: 'I’m a fruit and a colour, and I come wrapped in a peel. What am I?', hint: 'Six letters. Think of a round citrus fruit.' },
+  { answer: 'tree', word: 'Tree', question: 'My feet stay beneath the earth, while my arms reach for the sky. What am I?', hint: 'Four letters. My arms grow leaves.' }
+];
+let riddleIndex = 0;
+
+function letterBoxes() {
+  return [...riddleAnswer.querySelectorAll('input')];
+}
+
+function focusLetter(index = 0) {
+  const box = letterBoxes()[index];
+  box?.focus({ preventScroll: true });
+  box?.select();
+}
+
+function clearAnswerError() {
+  letterBoxes().forEach(box => box.removeAttribute('aria-invalid'));
+  riddleFeedback.textContent = '';
+}
+
+function fillLetters(text, index) {
+  const letters = text.replace(/[^a-z]/gi, '').toUpperCase();
+  if (!letters) return;
+  const boxes = letterBoxes();
+  [...letters].slice(0, boxes.length - index).forEach((letter, offset) => {
+    boxes[index + offset].value = letter;
+  });
+  clearAnswerError();
+  focusLetter(Math.min(index + letters.length, boxes.length - 1));
+}
+
+function renderRiddle() {
+  const riddle = riddles[riddleIndex];
+  document.getElementById('riddle-progress').textContent = `WORD ${riddleIndex + 1} OF ${riddles.length}`;
+  document.getElementById('riddle-question').textContent = riddle.question;
+  riddleHint.textContent = riddle.hint;
+  riddleHint.hidden = true;
+  riddleHintToggle.setAttribute('aria-expanded', 'false');
+  riddleAnswer.replaceChildren();
+  riddleAnswer.style.setProperty('--letter-count', riddle.answer.length);
+  [...riddle.answer].forEach((_, index) => {
+    const box = document.createElement('input');
+    box.type = 'text';
+    box.className = 'riddle-letter';
+    box.maxLength = 1;
+    box.autocomplete = 'off';
+    box.setAttribute('autocapitalize', 'characters');
+    box.spellcheck = false;
+    box.setAttribute('enterkeyhint', index === riddle.answer.length - 1 ? 'go' : 'next');
+    box.setAttribute('aria-label', `Letter ${index + 1} of ${riddle.answer.length}`);
+    box.setAttribute('aria-describedby', 'riddle-question riddle-feedback');
+    box.addEventListener('focus', () => box.select());
+    box.addEventListener('input', event => {
+      if (event.isComposing) return;
+      box.value = box.value.replace(/[^a-z]/gi, '').toUpperCase();
+      clearAnswerError();
+      if (box.value) focusLetter(Math.min(index + 1, riddle.answer.length - 1));
+    });
+    box.addEventListener('paste', event => {
+      event.preventDefault();
+      fillLetters(event.clipboardData.getData('text'), index);
+    });
+    box.addEventListener('keydown', event => {
+      if (event.key === 'Backspace' && !box.value && index > 0) {
+        event.preventDefault();
+        letterBoxes()[index - 1].value = '';
+        clearAnswerError();
+        focusLetter(index - 1);
+      } else if (event.key === 'ArrowLeft' || event.key === 'ArrowRight') {
+        event.preventDefault();
+        focusLetter(Math.max(0, Math.min(riddle.answer.length - 1, index + (event.key === 'ArrowLeft' ? -1 : 1))));
+      } else if (event.key === 'Enter' && index < riddle.answer.length - 1 && letterBoxes().some(input => !input.value)) {
+        event.preventDefault();
+        focusLetter(index + 1);
+      }
+    });
+    riddleAnswer.append(box);
+  });
+}
+
+function resetRiddle() {
+  riddleIndex = 0;
+  candleView.hidden = false;
+  riddleView.hidden = true;
+  riddleForm.hidden = false;
+  riddleReveal.hidden = true;
+  riddleFeedback.textContent = '';
+  riddleWords.replaceChildren();
+  wishDialog.setAttribute('aria-labelledby', 'wish-heading');
+  renderRiddle();
+}
+
+riddleHintToggle.addEventListener('click', () => {
+  riddleHint.hidden = !riddleHint.hidden;
+  riddleHintToggle.setAttribute('aria-expanded', String(!riddleHint.hidden));
+});
+riddleForm.addEventListener('submit', event => {
+  event.preventDefault();
+  if (riddleView.hidden || riddleIndex >= riddles.length) return;
+  const riddle = riddles[riddleIndex];
+  const boxes = letterBoxes();
+  const answer = boxes.map(box => box.value).join('').toLowerCase();
+  if (answer !== riddle.answer) {
+    riddleFeedback.textContent = answer
+      ? 'Not quite. Try again — there’s a tiny hint if you need it. ♡'
+      : 'Type your little guess first. ♡';
+    boxes.forEach(box => box.setAttribute('aria-invalid', 'true'));
+    focusLetter(Math.max(0, boxes.findIndex(box => !box.value)));
+    return;
+  }
+  const word = document.createElement('li');
+  word.textContent = riddle.word;
+  riddleWords.append(word);
+  riddleIndex++;
+  if (riddleIndex === riddles.length) {
+    riddleForm.hidden = true;
+    riddleReveal.hidden = false;
+    riddleFeedback.textContent = 'All five words, found by you. ♡';
+    relightButton.hidden = false;
+    wishDialog.setAttribute('aria-labelledby', 'riddle-title');
+    document.getElementById('riddle-title').focus({ preventScroll: true });
+    wishDialog.scrollTop = 0;
+  } else {
+    renderRiddle();
+    riddleFeedback.textContent = `“${riddle.word}” — you found it! Here’s your next clue.`;
+    focusLetter();
+  }
+});
 let confettiTimer;
 let wishMessageIndex = 0;
 const wishMessages = [
@@ -164,20 +305,25 @@ const wishMessages = [
   'May it arrive when your heart needs it most. ✨'
 ];
 function resetWish() {
+  resetRiddle();
   document.getElementById('flame').classList.remove('out');
   wishButton.hidden = false;
   relightButton.hidden = true;
   document.getElementById('wish-status').textContent = 'This one’s just for you.';
   document.getElementById('confetti').replaceChildren();
   clearTimeout(confettiTimer);
+  wishDialog.scrollTop = 0;
 }
 wishDialog.addEventListener('close', resetWish);
 wishButton.addEventListener('click', () => {
   document.getElementById('flame').classList.add('out');
   wishButton.hidden = true;
-  relightButton.hidden = false;
+  candleView.hidden = true;
+  riddleView.hidden = false;
+  wishDialog.setAttribute('aria-labelledby', 'riddle-heading');
   document.getElementById('wish-status').textContent = wishMessages[wishMessageIndex++ % wishMessages.length];
-  relightButton.focus({ preventScroll: true });
+  wishDialog.scrollTop = 0;
+  focusLetter();
   if (reducedMotion.matches || document.documentElement.classList.contains('motion-paused')) return;
   const confetti = document.getElementById('confetti');
   confetti.replaceChildren();
@@ -197,12 +343,7 @@ wishButton.addEventListener('click', () => {
   confettiTimer = setTimeout(() => confetti.replaceChildren(), 7500);
 });
 relightButton.addEventListener('click', () => {
-  document.getElementById('flame').classList.remove('out');
-  wishButton.hidden = false;
-  relightButton.hidden = true;
-  document.getElementById('wish-status').textContent = 'This one’s just for you.';
-  document.getElementById('confetti').replaceChildren();
-  clearTimeout(confettiTimer);
+  resetWish();
   wishButton.focus({ preventScroll: true });
 });
 
