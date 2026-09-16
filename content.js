@@ -2,12 +2,15 @@
 window.BIRTHDAY_CONTENT = {
   name: "Nethma",
   letter: [
-    "Again, happy belated 26th birthday! I hope you like this. And while you were asking me why I was being so silent and why I hadn’t read your letter yet, this is what I was secretly working on.",
-    "Anyway, this is one of your gifts. There are still a few more to come. I thought you might like the Ghibli style. Also, this was made with GP6-Astra. Wonderful, right? How can one or two clean prompts create all these designs? Okay, enough about that.",
-    "Also, from the things you wrote in your letter, I made 30 little notes for you. So this letter might not be very long, but there’s another one on its way in the post.",
-    "For the past 3.5 years, thank you for staying with me. I really want to celebrate many more birthdays together with you, with your cute smile, comfy hugs, and all your funny stories while I look at you and your smile.",
-    "And in just 13 days, I’m finally meeting you! YAYYY! I’m really looking forward to it.",
-    "I’ll always be there with you, supporting you every day and cheering for you in everything you do.",
+    "Again, happy belated 26th birthday! ❤️ I hope you like this. And while you were asking me why I was being so silent and why I hadn’t read your letter yet, this is what I was secretly working on. 😌",
+    "Anyway, this is one of your gifts. There are still a few more to come. I thought you might like the Ghibli style. Also, this was made with GP6-Astra. Wonderful, right? How can one or two clean prompts create all these designs? Okay, enough about that. 😂",
+    "Also, from the things you wrote in your letter, I made 30 little notes for you. So this letter might not be very long, but there’s another one on its way in the post. ❤️",
+    "For the past 3.5 years, thank you for staying with me. I’m honestly so proud of you and the person you are. I’m proud of how you handle everything that comes your way, how you keep going, and how much thought you put into the way you treat me. I really love that about you.",
+    "And one of my favourite things about us is how you can completely switch from being this grown-up person who handles everything to becoming a total baby with me. 😂❤️ I love how you tell me everything, even the little things, and how you tell your stories with so much excitement. I could honestly listen to you talk about the most random things while just looking at you and your smile.",
+    "And I know I don’t always tell you all of this. I know sometimes I’m not very good at putting these feelings into words, but I want you to know that I always feel this way about you. Even when I don’t say it, I notice all these little things about you, and I’m always so proud of you and grateful to have you in my life. ❤️",
+    "I really want to celebrate many more birthdays together with you, with your cute smile, your comfy hugs, your funny stories, and all those little moments that make being with you feel so special.",
+    "And in just 13 days, I’m finally meeting you! YAYYY! ❤️ I’m really looking forward to it. I’ve been waiting for this.",
+    "Anyway, good luck with everything in your future, Babu. I hope you achieve everything you’re working towards and become everything you want to be. No matter what happens, I’ll always be there with you, supporting you and cheering for you every day.",
     "Happy birthday again, Babu. ❤️"
   ],
   signoff: "Love youuu.",
