@@ -93,7 +93,45 @@
       <p class="journey-status" id="journey-status" role="status" aria-live="polite"></p>
     </main>
     <dialog id="letter-dialog" aria-labelledby="dialog-title"><div class="letter-modal"><button class="close-dialog" id="close-letter" aria-label="Close birthday letter">×</button><p class="eyebrow">A LITTLE LOVE, ON PAPER</p><h2 id="dialog-title">Hi Babu,</h2><div class="letter-reading"><div id="letter-content"></div><p class="letter-signoff handwritten" id="letter-signoff"></p></div></div></dialog>
-    <dialog id="wish-dialog" aria-labelledby="wish-heading"><div class="keepsake-modal wish-modal"><button class="close-dialog" data-close aria-label="Close birthday wish">×</button><div class="wish-art" aria-hidden="true"><span class="star star-one">✧</span><span class="star star-two">✦</span><span class="star star-three">✧</span><div class="cake"><div class="candle"><span class="flame" id="flame"></span><span class="wick"></span></div><div class="cake-top"></div><div class="cake-body"><span></span><span></span><span></span><span></span><span></span></div><div class="cake-plate"></div></div></div><div class="wish-copy"><p class="eyebrow">ONE LAST LITTLE THING</p><h2 id="wish-heading">Close your eyes.<br/><em>Make a wish.</em></h2><p>For all the happiness your heart can hold.</p><button class="button primary" id="wish-button">Blow out the candle <span>✧</span></button><p class="wish-status handwritten" id="wish-status" role="status" aria-live="polite">This one’s just for you.</p><button class="relight" id="relight" hidden>Make another wish ↺</button></div></div><div class="confetti" id="confetti" aria-hidden="true"></div></dialog>
+    <dialog id="wish-dialog" aria-labelledby="wish-heading">
+      <div class="keepsake-modal wish-modal">
+        <button class="close-dialog" data-close aria-label="Close birthday wish">×</button>
+        <div id="candle-view">
+          <div class="wish-art" aria-hidden="true"><span class="star star-one">✧</span><span class="star star-two">✦</span><span class="star star-three">✧</span><div class="cake"><div class="candle"><span class="flame" id="flame"></span><span class="wick"></span></div><div class="cake-top"></div><div class="cake-body"><span></span><span></span><span></span><span></span><span></span></div><div class="cake-plate"></div></div></div>
+          <div class="wish-copy">
+            <p class="eyebrow">ONE LAST LITTLE THING</p>
+            <h2 id="wish-heading">Close your eyes.<br/><em>Make a wish.</em></h2>
+            <p>For all the happiness your heart can hold.</p>
+            <button class="button primary" id="wish-button">Blow out the candle <span>✧</span></button>
+          </div>
+        </div>
+        <p class="wish-status handwritten" id="wish-status" role="status" aria-live="polite">This one’s just for you.</p>
+        <section class="wish-riddle" id="wish-riddle" hidden aria-labelledby="riddle-heading">
+          <p class="eyebrow">A LITTLE MYSTERY, JUST BETWEEN US</p>
+          <h2 id="riddle-heading">A small riddle<br/><em>for you.</em></h2>
+          <p class="riddle-intro">Five little words. One name to keep close.</p>
+          <ol class="riddle-words" id="riddle-words" aria-label="Words you have discovered"></ol>
+          <form id="riddle-form" novalidate>
+            <p class="eyebrow" id="riddle-progress"></p>
+            <p class="riddle-question" id="riddle-question"></p>
+            <div class="riddle-answer-row">
+              <div class="riddle-letter-boxes" id="riddle-answer" role="group" aria-labelledby="riddle-question" aria-describedby="riddle-feedback riddle-hint"></div>
+              <button class="button primary" type="submit" aria-label="Check answer"><svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></button>
+            </div>
+            <button class="riddle-hint-toggle" id="riddle-hint-toggle" type="button" aria-expanded="false" aria-controls="riddle-hint">A tiny hint?</button>
+            <p class="riddle-hint" id="riddle-hint" hidden></p>
+          </form>
+          <p class="riddle-feedback" id="riddle-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+          <div class="riddle-reveal" id="riddle-reveal" hidden>
+            <p class="eyebrow">YOU FOUND THE NAME</p>
+            <h3 id="riddle-title" tabindex="-1">The Priory of<br/>the Orange Tree</h3>
+            <p class="handwritten">Remember this name, Babu. ♡</p>
+          </div>
+        </section>
+        <button class="relight" id="relight" hidden>Make another wish ↺</button>
+      </div>
+      <div class="confetti" id="confetti" aria-hidden="true"></div>
+    </dialog>
     <noscript><p class="noscript-note">Please enable JavaScript to explore your birthday surprise.</p></noscript>
   </body>
 </html>

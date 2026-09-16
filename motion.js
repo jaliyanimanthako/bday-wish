@@ -21,6 +21,14 @@
   let blurRadius = innerWidth < 600 ? 3 : 5;
   let frame = 0;
   let previousTime = 0;
+  let wheelHeldAtScene = false;
+  let wheelGestureActive = false;
+  let wheelEndTimer = 0;
+  let touchLastY = null;
+  let touchHeldAtScene = false;
+  let touchFreshGesture = false;
+  let lastSceneStop = 0;
+  const wheelGestureEndDelay = 280;
   const clamp = (n, max = 1) => Math.max(0, Math.min(max, n));
   const ease = n => n * n * n * (n * (n * 6 - 15) + 10);
   const phase = (n, from, to) => ease(clamp((n - from) / (to - from)));
@@ -100,7 +108,74 @@
     distance = Math.max(1, track.offsetHeight - innerHeight);
     sceneHeight = hero.clientHeight;
     blurRadius = innerWidth < 600 ? 3 : 5;
+    const nearestScene = Math.round(window.scrollY / distance * lastScene);
+    if (Math.abs(window.scrollY - nearestScene / lastScene * distance) <= 2) lastSceneStop = nearestScene;
     schedule();
+  }
+
+  function insideScrollableContent(target) {
+    return target instanceof Element && Boolean(target.closest('dialog[open], .note-card'));
+  }
+
+  function moveThroughJourney(delta, freshGesture) {
+    if (!delta || lastScene < 1) return false;
+    const y = window.scrollY;
+    const step = distance / lastScene;
+    const direction = Math.sign(delta);
+    const position = y / step;
+    const previousStop = lastSceneStop * step;
+    const leavingPreviousStop = freshGesture && Math.abs(y - previousStop) <= 2;
+    const boundaryIndex = leavingPreviousStop
+      ? lastSceneStop + direction
+      : direction > 0 ? Math.ceil(position) : Math.floor(position);
+    const boundary = clamp(boundaryIndex, lastScene) * step;
+    const requested = clamp(y + delta, distance);
+    const reachedBoundary = direction > 0 ? requested >= boundary : requested <= boundary;
+    window.scrollTo({ top: reachedBoundary ? boundary : requested, behavior: 'instant' });
+    if (reachedBoundary) lastSceneStop = clamp(boundaryIndex, lastScene);
+    schedule();
+    return reachedBoundary;
+  }
+
+  function onWheel(event) {
+    if (event.ctrlKey || document.querySelector('dialog[open]') || insideScrollableContent(event.target)) return;
+    if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) return;
+    event.preventDefault();
+    const freshGesture = !wheelGestureActive;
+    wheelGestureActive = true;
+    clearTimeout(wheelEndTimer);
+    wheelEndTimer = setTimeout(() => {
+      wheelHeldAtScene = false;
+      wheelGestureActive = false;
+    }, wheelGestureEndDelay);
+    if (wheelHeldAtScene) return;
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? innerHeight : 1;
+    if (moveThroughJourney(event.deltaY * unit, freshGesture)) wheelHeldAtScene = true;
+  }
+
+  function onTouchStart(event) {
+    if (document.querySelector('dialog[open]') || insideScrollableContent(event.target)) return;
+    touchLastY = event.touches[0]?.clientY ?? null;
+    touchHeldAtScene = false;
+    touchFreshGesture = true;
+  }
+
+  function onTouchMove(event) {
+    if (touchLastY === null || document.querySelector('dialog[open]') || insideScrollableContent(event.target)) return;
+    const y = event.touches[0]?.clientY;
+    if (typeof y !== 'number') return;
+    const delta = touchLastY - y;
+    touchLastY = y;
+    if (!delta) return;
+    event.preventDefault();
+    if (!touchHeldAtScene && moveThroughJourney(delta, touchFreshGesture)) touchHeldAtScene = true;
+    touchFreshGesture = false;
+  }
+
+  function onTouchEnd() {
+    touchLastY = null;
+    touchHeldAtScene = false;
+    touchFreshGesture = false;
   }
 
   async function prepare(index, retry = false) {
@@ -129,6 +204,7 @@
   function goTo(index) {
     if (document.querySelector('dialog[open]')) return;
     const target = clamp(index, lastScene);
+    lastSceneStop = target;
     for (let i = 1; i <= target; i++) prepare(i, true);
     window.scrollTo({ top: target / lastScene * distance, behavior: enabled ? 'smooth' : 'instant' });
     schedule();
@@ -139,6 +215,11 @@
   }
   document.querySelectorAll('[data-go]').forEach(button => button.addEventListener('click', () => goTo(Number(button.dataset.go))));
   reduced.addEventListener('change', () => { enabled = !reduced.matches; updateMotion(); });
+  window.addEventListener('wheel', onWheel, { passive: false });
+  window.addEventListener('touchstart', onTouchStart, { passive: true });
+  window.addEventListener('touchmove', onTouchMove, { passive: false });
+  window.addEventListener('touchend', onTouchEnd, { passive: true });
+  window.addEventListener('touchcancel', onTouchEnd, { passive: true });
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', measure, { passive: true });
   window.addEventListener('pageshow', measure);
@@ -152,8 +233,6 @@
     if (event.key === 'ArrowRight') { event.preventDefault(); goTo(Math.floor(progress + .08) + 1); }
     if (event.key === 'ArrowLeft') { event.preventDefault(); goTo(Math.ceil(progress - .08) - 1); }
   });
-  // Native wheel, trackpad, swipe, Page Down, and arrow-key scrolling are
-  // intentionally left intact. Only the fixed artwork responds to scrollY.
   measure();
   draw();
   updateMotion();
