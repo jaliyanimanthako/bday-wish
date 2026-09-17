@@ -25,9 +25,14 @@
   let wheelGestureActive = false;
   let wheelEndTimer = 0;
   let touchLastY = null;
+  let touchStartX = 0;
+  let touchStartY = 0;
+  let touchDirection = null;
+  let touchScale = 1;
   let touchHeldAtScene = false;
   let touchFreshGesture = false;
-  let lastSceneStop = 0;
+  let journeyY = 0;
+  let measured = false;
   const wheelGestureEndDelay = 280;
   const clamp = (n, max = 1) => Math.max(0, Math.min(max, n));
   const ease = n => n * n * n * (n * (n * 6 - 15) + 10);
@@ -105,11 +110,15 @@
     if (!frame && !document.hidden) frame = requestAnimationFrame(tick);
   }
   function measure() {
+    // Keep the same point in the story when Safari resizes its toolbar or
+    // the tablet rotates, even if the browser has already clamped scrollY.
+    const position = measured ? clamp(journeyY / distance) : null;
     distance = Math.max(1, track.offsetHeight - innerHeight);
     sceneHeight = hero.clientHeight;
     blurRadius = innerWidth < 600 ? 3 : 5;
-    const nearestScene = Math.round(window.scrollY / distance * lastScene);
-    if (Math.abs(window.scrollY - nearestScene / lastScene * distance) <= 2) lastSceneStop = nearestScene;
+    journeyY = position === null ? clamp(window.scrollY, distance) : position * distance;
+    measured = true;
+    if (position !== null) window.scrollTo({ top: journeyY, behavior: 'instant' });
     schedule();
   }
 
@@ -119,20 +128,25 @@
 
   function moveThroughJourney(delta, freshGesture) {
     if (!delta || lastScene < 1) return false;
-    const y = window.scrollY;
     const step = distance / lastScene;
+    if (freshGesture) {
+      journeyY = clamp(window.scrollY, distance);
+      const nearestStop = Math.round(journeyY / step) * step;
+      if (Math.abs(journeyY - nearestStop) <= 1) journeyY = nearestStop;
+    }
+    // Accumulate the precise input position: scrollY can round small finger
+    // movements back to the same pixel and otherwise trap the next event.
+    const y = journeyY;
     const direction = Math.sign(delta);
     const position = y / step;
-    const previousStop = lastSceneStop * step;
-    const leavingPreviousStop = freshGesture && Math.abs(y - previousStop) <= 2;
-    const boundaryIndex = leavingPreviousStop
-      ? lastSceneStop + direction
+    const atStop = Math.abs(position - Math.round(position)) < 1e-8;
+    const boundaryIndex = atStop ? Math.round(position) + direction
       : direction > 0 ? Math.ceil(position) : Math.floor(position);
     const boundary = clamp(boundaryIndex, lastScene) * step;
     const requested = clamp(y + delta, distance);
     const reachedBoundary = direction > 0 ? requested >= boundary : requested <= boundary;
-    window.scrollTo({ top: reachedBoundary ? boundary : requested, behavior: 'instant' });
-    if (reachedBoundary) lastSceneStop = clamp(boundaryIndex, lastScene);
+    journeyY = reachedBoundary ? boundary : requested;
+    window.scrollTo({ top: journeyY, behavior: 'instant' });
     schedule();
     return reachedBoundary;
   }
@@ -154,21 +168,35 @@
   }
 
   function onTouchStart(event) {
-    if (document.querySelector('dialog[open]') || insideScrollableContent(event.target)) return;
-    touchLastY = event.touches[0]?.clientY ?? null;
-    touchHeldAtScene = false;
+    onTouchEnd();
+    if (event.touches.length !== 1 || document.querySelector('dialog[open]') || insideScrollableContent(event.target)) return;
+    const touch = event.touches[0];
+    touchLastY = touchStartY = touch.clientY;
+    touchStartX = touch.clientX;
+    // A comfortable swipe covers a transition on both phones and tablets.
+    touchScale = (distance / lastScene) / Math.max(1, sceneHeight * .75);
     touchFreshGesture = true;
   }
 
   function onTouchMove(event) {
-    if (touchLastY === null || document.querySelector('dialog[open]') || insideScrollableContent(event.target)) return;
-    const y = event.touches[0]?.clientY;
-    if (typeof y !== 'number') return;
+    if (event.touches.length !== 1 || document.querySelector('dialog[open]')) { onTouchEnd(); return; }
+    if (touchLastY === null) return;
+    const touch = event.touches[0];
+    const y = touch.clientY;
+    if (!touchDirection) {
+      const dx = Math.abs(touch.clientX - touchStartX);
+      const dy = Math.abs(y - touchStartY);
+      if (Math.max(dx, dy) >= 4) touchDirection = dy >= dx ? 'vertical' : 'horizontal';
+    }
+    if (touchDirection === 'horizontal') { onTouchEnd(); return; }
+    // Cancel from the first move so Safari cannot start native momentum in
+    // parallel with the journey. Multi-finger zoom remains browser-owned.
+    if (!event.cancelable) { onTouchEnd(); return; }
+    event.preventDefault();
     const delta = touchLastY - y;
     touchLastY = y;
     if (!delta) return;
-    event.preventDefault();
-    if (!touchHeldAtScene && moveThroughJourney(delta, touchFreshGesture)) touchHeldAtScene = true;
+    if (!touchHeldAtScene && moveThroughJourney(delta * touchScale, touchFreshGesture)) touchHeldAtScene = true;
     touchFreshGesture = false;
   }
 
@@ -176,6 +204,7 @@
     touchLastY = null;
     touchHeldAtScene = false;
     touchFreshGesture = false;
+    touchDirection = null;
   }
 
   async function prepare(index, retry = false) {
@@ -204,7 +233,6 @@
   function goTo(index) {
     if (document.querySelector('dialog[open]')) return;
     const target = clamp(index, lastScene);
-    lastSceneStop = target;
     for (let i = 1; i <= target; i++) prepare(i, true);
     window.scrollTo({ top: target / lastScene * distance, behavior: enabled ? 'smooth' : 'instant' });
     schedule();
@@ -220,7 +248,11 @@
   window.addEventListener('touchmove', onTouchMove, { passive: false });
   window.addEventListener('touchend', onTouchEnd, { passive: true });
   window.addEventListener('touchcancel', onTouchEnd, { passive: true });
-  window.addEventListener('scroll', schedule, { passive: true });
+  window.addEventListener('scroll', () => {
+    // Do not replace the precise touch/wheel accumulator with rounded pixels.
+    if (touchLastY === null && !wheelGestureActive) journeyY = clamp(scrollY, distance);
+    schedule();
+  }, { passive: true });
   window.addEventListener('resize', measure, { passive: true });
   window.addEventListener('pageshow', measure);
   document.addEventListener('visibilitychange', () => {
